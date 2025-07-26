@@ -6,6 +6,8 @@ function UploadForm({ setPhotos }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const BACKEND_URL = "https://photogallerybackend-tvmu.onrender.com";
+
   const handleUpload = async () => {
     if (!imageUrl || !title || !description) {
       alert("Please fill in all fields.");
@@ -13,7 +15,7 @@ function UploadForm({ setPhotos }) {
     }
 
     try {
-      const res = await axios.post("http://localhost:5001/api/photos/upload", {
+      const res = await axios.post(`${BACKEND_URL}/api/photos/upload`, {
         imageUrl,
         title,
         description,

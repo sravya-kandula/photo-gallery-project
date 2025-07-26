@@ -8,22 +8,25 @@ function App() {
   const [search, setSearch] = useState("");
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
+  const BACKEND_URL = "https://photogallerybackend-tvmu.onrender.com";
+
   useEffect(() => {
-    axios.get("http://localhost:5001/api/photos")
+    axios
+      .get(`${BACKEND_URL}/api/photos`)
       .then((res) => setPhotos(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5001/api/photos/${id}`);
+      await axios.delete(`${BACKEND_URL}/api/photos/${id}`);
       setPhotos((prev) => prev.filter((photo) => photo._id !== id));
     } catch (error) {
       console.error("Delete failed:", error);
     }
   };
 
-  const filteredPhotos = photos.filter(photo =>
+  const filteredPhotos = photos.filter((photo) =>
     photo.title.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -40,7 +43,7 @@ function App() {
         className="search-bar"
       />
 
-      <UploadForm setPhotos={setPhotos} />
+      <UploadForm setPhotos={setPhotos} backendUrl={BACKEND_URL} />
 
       <div className="photo-grid">
         {filteredPhotos.map((photo) => (
